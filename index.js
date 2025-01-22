@@ -40,6 +40,14 @@ async function run() {
       res.send(result);
     });
 
+    // (single id khujar process)
+    app.get("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await coffeeCollection.findOne(query);
+      res.send(result);
+    });
+
     // Delete Card/id
     app.delete("/coffee/:id", async (req, res) => {
       const id = req.params.id;
