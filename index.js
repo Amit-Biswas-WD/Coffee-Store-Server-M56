@@ -48,6 +48,26 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const coffeeUpdate = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const coffee = {
+        $set: {
+          name: coffeeUpdate.name,
+          chef: coffeeUpdate.chef,
+          supplier: coffeeUpdate.supplier,
+          taste: coffeeUpdate.taste,
+          category: coffeeUpdate.category,
+          details: coffeeUpdate.details,
+          photo: coffeeUpdate.photo,
+        },
+      };
+      const result = await coffeeCollection.updateOne(filter, coffee, options);
+      res.send(result);
+    });
+
     // Delete Card/id
     app.delete("/coffee/:id", async (req, res) => {
       const id = req.params.id;
