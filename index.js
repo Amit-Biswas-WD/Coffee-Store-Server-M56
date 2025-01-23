@@ -24,11 +24,12 @@ async function run() {
     await client.connect();
 
     const coffeeCollection = client.db("coffeeDB").collection("coffee");
+    const usersCollection = client.db("coffeeDB").collection("users");
 
     // Create data
     app.post("/coffee", async (req, res) => {
       const newCoffee = req.body;
-      console.log(newCoffee);
+      console.log("Adding New Coffee", newCoffee);
       const result = await coffeeCollection.insertOne(newCoffee);
       res.send(result);
     });
@@ -48,6 +49,7 @@ async function run() {
       res.send(result);
     });
 
+    // edit (Single card/id details)
     app.put("/coffee/:id", async (req, res) => {
       const id = req.params.id;
       const coffeeUpdate = req.body;
@@ -73,6 +75,14 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await coffeeCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // user related api (Sign-In)
+    app.post("/users", async (req, res) => {
+      const newUser = req.body;
+      console.log("New user", newUser);
+      const result = await usersCollection.insertOne(newUser);
       res.send(result);
     });
 
